@@ -1,3 +1,4 @@
+import { fuzzyEqual } from '../util'
 import type { PointLike } from '../shapes/Point.shape'
 import type { SegmentLike } from '../shapes/Segment.shape'
 import { Relation } from './base'
@@ -20,7 +21,7 @@ export class In extends Relation {
   }
 
   static PointInPoint(point1: PointLike, point2: PointLike) {
-    return point1.x === point2.x && point1.y === point2.y
+    return fuzzyEqual(point1.x, point2.x) && fuzzyEqual(point1.y, point2.y)
   }
 }
 
