@@ -6,7 +6,6 @@ export abstract class Relation {
     return `${left.type}${this.type}${right.type}` as GetFunctionNameByRelationAndShape<T, TLeft, TRight>
   }
 
-  // static type: RelationType
   static getFunction<T extends RelationInstance, TLeft extends ShapeInstance, TRight extends ShapeInstance>(this: T, left: TLeft, right: TRight) {
     return this[this.getFunctionName(left, right)]
   }
