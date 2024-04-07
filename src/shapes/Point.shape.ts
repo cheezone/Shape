@@ -1,12 +1,8 @@
 import { ShapeEnum } from '../constant'
 import { Shape } from './base.shape'
 
-export class Point extends Shape {
+export class Point extends Shape<PointLike> implements PointLike {
   type = ShapeEnum.Point
-
-  constructor(public data: PointLike) {
-    super()
-  }
 
   get x() { return this.data.x }
   set x(value) {
