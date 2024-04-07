@@ -1,5 +1,6 @@
 // @ts-check
 import antfu from '@antfu/eslint-config'
+import sortClassMembers from 'eslint-plugin-sort-class-members'
 
 export default antfu(
   {
@@ -12,4 +13,6 @@ export default antfu(
       // overrides
     },
   },
+  sortClassMembers.configs['flat/recommended'],
+
 )

@@ -4,6 +4,10 @@ import { Shape } from './base.shape'
 export class Point extends Shape {
   type = ShapeEnum.Point
 
+  constructor(public data: PointLike) {
+    super()
+  }
+
   get x() { return this.data.x }
   set x(value) {
     this.data.x = value
@@ -12,10 +16,6 @@ export class Point extends Shape {
   get y() { return this.data.y }
   set y(value) {
     this.data.y = value
-  }
-
-  constructor(public data: PointLike) {
-    super()
   }
 }
 
