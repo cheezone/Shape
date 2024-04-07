@@ -16,7 +16,7 @@ export class RelationManager {
   static runImpl<T extends RelationType, TRelation extends RelationMap[T], TLeft extends ShapeInstance, TRight extends ShapeInstance>(type: T, left: TLeft, right: TRight,
   ) {
     const relation = this.get(type) as TRelation
-    const func = relation.getFunction(left, right) as ((left: TLeft, right: TRight) => boolean)
+    const func = relation.getFunction(left, right) as ((left: TLeft, right: TRight) => ReturnType<TRelation[`${TLeft['type']}${TRelation['type']}${TRight['type']}`]>)
 
     return func(left, right)
   }
