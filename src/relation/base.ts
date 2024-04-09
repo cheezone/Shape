@@ -9,6 +9,8 @@ export abstract class Relation {
   static getFunction<T extends RelationInstance, TLeft extends ShapeInstance, TRight extends ShapeInstance>(this: T, left: TLeft, right: TRight) {
     return this[this.getFunctionName(left, right)]
   }
+
+  static count: 2 | 3 = 2
 }
 
 type GetFunctionNameByRelationAndShape<T extends RelationInstance, TLeft extends ShapeInstance, TRight extends ShapeInstance> =

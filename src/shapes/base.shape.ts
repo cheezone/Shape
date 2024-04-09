@@ -3,7 +3,7 @@ import { RelationManager } from '../relation'
 
 interface ShapeData {}
 
-export abstract class Shape<TData extends ShapeData> {
+export abstract class Shape<TData extends ShapeData = ShapeData> {
   constructor(public data: TData) {
   }
 
