@@ -21,3 +21,4 @@ export class RelationManager {
     return func(left, right)
   }
 }
+
