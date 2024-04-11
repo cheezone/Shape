@@ -1,4 +1,4 @@
-import type { ShapeInstance } from '../constant'
+import type { ShapeInstance } from '../shapes'
 import type { Relation } from './base'
 import type { RelationInstance, RelationMap, RelationType } from './type'
 
@@ -21,4 +21,3 @@ export class RelationManager {
     return func(left, right)
   }
 }
-

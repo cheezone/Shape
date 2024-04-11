@@ -1,14 +1,23 @@
 {
   "compilerOptions": {
+    "plugins": [
+      {
+        "name": "eslint-plugin-export-scope"
+      }
+    ],
     "target": "ESNext",
-    "lib": ["ESNext"],
+    "lib": [
+      "ESNext"
+    ],
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "strict": true,
     "strictNullChecks": true,
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
   }
+
 }

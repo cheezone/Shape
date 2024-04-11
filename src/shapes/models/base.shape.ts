@@ -1,7 +1,7 @@
-import type { ShapeInstance } from '../constant'
-import { RelationManager } from '../relation'
+import { RelationManager } from '../../relation'
+import type { ShapeInstance } from './type'
 
-interface ShapeData {}
+export interface ShapeData { }
 
 export abstract class Shape<TData extends ShapeData = ShapeData> {
   constructor(public data: TData) {

@@ -9,6 +9,7 @@
   // Auto fix
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
+    "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"
   },
 
@@ -43,5 +44,18 @@
   "cSpell.words": [
     "antfu",
     "Cheez"
-  ]
+  ],
+
+  "cSpell.ignorePaths": [
+    "package-lock.json",
+    "node_modules",
+    "vscode-extension",
+    ".git/objects",
+    ".vscode",
+    ".vscode-insiders",
+    "pnpm-*.*"
+  ],
+
+  // Use workspace version of TypeScript
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }

@@ -12,3 +12,16 @@
 export function fuzzyEqual(a: number, b: number, epsilon: number = 0.0001): boolean {
   return Math.abs(a - b) < epsilon
 }
+
+export type NoNeverKeys<T> = {
+  [K in keyof T]: T[K] extends never ? never : K;
+}[keyof T]
+
+export type NoNever<Input> = {
+  [K in NoNeverKeys<Input>]: Input[K];
+}
+
+export type UnionToIntersection<U> =
+  (U extends U ? (x: U) => unknown : never) extends (x: infer R) => unknown
+    ? R
+    : never

@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { Point } from '../shapes/Point.shape'
-import { Segment } from '../shapes/Segment.shape'
+import { Point, Segment } from '../shapes'
 import { In } from './In'
 
 const point1 = new Point({ x: 1, y: 1 })

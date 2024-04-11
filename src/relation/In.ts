@@ -1,6 +1,5 @@
 import { fuzzyEqual } from '../util'
-import type { PointLike } from '../shapes/Point.shape'
-import type { SegmentLike } from '../shapes/Segment.shape'
+import type { PointLike, SegmentLike } from '../shapes'
 import { Relation } from './base'
 import { RelationEnum } from './type'
 import { RelationManager } from '.'

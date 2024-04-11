@@ -1,6 +1,6 @@
-import { ShapeEnum } from '../constant'
-import { Point, type PointLike } from './Point.shape'
 import { Shape } from './base.shape'
+import { ShapeEnum } from './type'
+import { Point, type PointLike } from './Point.shape'
 
 export class Segment extends Shape<SegmentLike> implements SegmentLike {
   type = ShapeEnum.Segment
