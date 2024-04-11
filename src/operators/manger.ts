@@ -1,3 +1,6 @@
+import type { ShapeTypeName } from '../shapes'
+import type { AllOperatorMethod } from './constant'
+
 import type { OperatorMap, OperatorTypeName } from './models'
 
 /**
@@ -6,72 +9,38 @@ import type { OperatorMap, OperatorTypeName } from './models'
 export class OperatorManager {
   private static map: OperatorMap = {} as OperatorMap
 
+  static run: AllOperatorMethod = (operatorType: OperatorTypeName, ...operatorParameters: any[]) => {
+    const operator = this.get(operatorType)
+    const methodName = OperatorManager.getFunctionName(operatorType, ...operatorParameters)
+    const method = operator[methodName as keyof typeof operator] as unknown as Function
+    return method.call(operator, ...operatorParameters)
+  }
+
+  /**
+   * 注册。
+   *
+   * @param operator 运算符对象。
+   */
   static register<TOperatorTypeName extends OperatorTypeName, TOperator extends OperatorMap[TOperatorTypeName]>(operator: TOperator): void {
     const type = operator.type as TOperatorTypeName
     this.map[type] = operator
   }
 
+  /**
+   * 获取运算符。
+   *
+   * @param type 类型。
+   */
   static get<TOperatorTypeName extends OperatorTypeName>(type: TOperatorTypeName): OperatorMap[TOperatorTypeName] {
     return this.map[type]!
   }
 
-  // static runOperator<TOperatorTypeName extends OperatorTypeName, TOperator extends OperatorMap[TOperatorTypeName], TOperatorParameters extends ShapeTypeName[]>(operatorType: TOperatorTypeName, ...operatorParameters: TOperatorParameters): StaticMethodsWithParams<TOperator, TOperatorParameters> {
-  //   // const a = this.get(operatorType)
-  //   // a
-
-  //   const sss = this.getFunctionName('In', 'Point')
-
-  //   // return this.get(operatorType).runImpl(...operatorParameters)
-  // }
-
-  // static getFunction<TOperatorTypeName extends OperatorTypeName>(typeName: TOperatorTypeName, ...shapeTypeNames: ShapeTypeName[]) {
-  //   return this.get(typeName)[this.getFunctionName(typeName, ...shapeTypeNames)]
-  // }
-
-  // static getFunctionName<TOperatorTypeName extends OperatorTypeName, T extends [ShapeTypeName] | [ShapeTypeName, ShapeTypeName] | [ShapeTypeName, ShapeTypeName, ShapeTypeName]>(operatorTypeName: TOperatorTypeName, ...shapeTypeNames: T): getFunctionName<TOperatorTypeName, T> {
-  //   if (shapeTypeNames.length === 1)
-  //     return `${operatorTypeName}${shapeTypeNames[0]}` as getFunctionName<TOperatorTypeName, T>
-  //   else if (shapeTypeNames.length === 2)
-  //     return `${shapeTypeNames[0]}${operatorTypeName}${shapeTypeNames[1]}` as getFunctionName<TOperatorTypeName, T>
-  //   else
-  //     return `${shapeTypeNames[0]}${operatorTypeName}${shapeTypeNames[1]}With${shapeTypeNames[2]}` as getFunctionName<TOperatorTypeName, T>
-  // }
+  static getFunctionName(operatorTypeName: OperatorTypeName, ...shapeTypeNames: ShapeTypeName[]) {
+    if (shapeTypeNames.length === 1)
+      return `${operatorTypeName}${shapeTypeNames[0]}`
+    else if (shapeTypeNames.length === 2)
+      return `${shapeTypeNames[0]}${operatorTypeName}${shapeTypeNames[1]}`
+    else
+      return `${shapeTypeNames[0]}${operatorTypeName}${shapeTypeNames[1]}With${shapeTypeNames[2]}`
+  }
 }
-
-// export interface OperatorManager{
-//   run: G<'In'>
-// }
-
-// new OperatorManager().run()
-
-// type getFunctionName<TOperatorTypeName extends OperatorTypeName, T extends [ShapeTypeName] | [ShapeTypeName, ShapeTypeName] | [ShapeTypeName, ShapeTypeName, ShapeTypeName]> =
-//   T extends [infer T1 extends ShapeTypeName, infer T2 extends ShapeTypeName, infer T3 extends ShapeTypeName] ?
-//   `${T1}${TOperatorTypeName}${T2}With${T3}` :
-//     T extends [infer T1 extends ShapeTypeName, infer T2 extends ShapeTypeName] ?
-//   `${T1}${TOperatorTypeName}${T2}`
-//       : T extends [infer T1 extends ShapeTypeName] ?
-//   `${TOperatorTypeName}${T1}`
-//         : never
-
-// type buildFunctionName<TOperatorTypeName extends OperatorTypeName, T extends [ShapeTypeName] | [ShapeTypeName, ShapeTypeName] | [ShapeTypeName, ShapeTypeName, ShapeTypeName]> =
-//   T extends [infer T1 extends ShapeTypeName, infer T2 extends ShapeTypeName, infer T3 extends ShapeTypeName] ?
-//   `${T1}${TOperatorTypeName}${T2}With${T3}` :
-//     T extends [infer T1 extends ShapeTypeName, infer T2 extends ShapeTypeName] ?
-//   `${T1}${TOperatorTypeName}${T2}`
-//       : T extends [infer T1 extends ShapeTypeName] ?
-//   `${TOperatorTypeName}${T1}`
-//         : never
-
-// type sda = getAllFunctionName<'In', ['Point']>
-
-// type getTargetFunctionName<TOperatorTypeName extends OperatorTypeName, T extends [ShapeTypeName] | [ShapeTypeName, ShapeTypeName] | [ShapeTypeName, ShapeTypeName, ShapeTypeName]> = Pick<GetOperatorMethodsMap<GetOperator<TOperatorTypeName>>, buildFunctionName<TOperatorTypeName, T>>
-
-// type dsa = getFunctionName<'In', ['Point']>
-
-// type G<TOperatorTypeName extends OperatorTypeName> = GetOverloadMethods<GetOperatorMethodsMap<GetOperator<TOperatorTypeName>>>
-
-// type asdas = G<'In'>
-
-// function asdasdas(a: asdas) {
-//   a(new Point({ x: 1, y: 1 }), new Point({ x: 1, y: 1 }))
-// }

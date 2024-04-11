@@ -7,5 +7,10 @@ export interface OperatorMap {
   On: typeof OnOperator
 }
 
+export const OperatorEnum = {
+  In: 'In',
+  On: 'On',
+} as const
+
 export type OperatorTypeName = Simplify<keyof OperatorMap>
-export type OperatorType = OperatorMap[OperatorTypeName]
+export type OperatorClass = OperatorMap[OperatorTypeName]

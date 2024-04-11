@@ -1,4 +1,5 @@
-import type { Point, Segment } from '..'
+import type { Point } from './Point.shape'
+import type { Segment } from './Segment.shape'
 
 export const ShapeEnum = {
   Segment: 'Segment',
