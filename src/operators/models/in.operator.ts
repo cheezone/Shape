@@ -1,4 +1,4 @@
-import type { PointLike, SegmentLike } from '../../shapes'
+import type { CircleLike, PointLike, SegmentLike } from '../../shapes'
 import { fuzzyEqual } from '../../util'
 import { OperatorManager } from '../manger'
 import { Operator } from './base'
@@ -16,11 +16,19 @@ export class InOperator extends Operator {
   }
 
   static SegmentInSegment(segment1: SegmentLike, segment2: SegmentLike) {
-    return this.PointInSegment(segment1.start, segment2) && this.PointInSegment(segment1.end, segment2)
+    return InOperator.PointInSegment(segment1.start, segment2) && InOperator.PointInSegment(segment1.end, segment2)
   }
 
   static PointInPoint(point1: PointLike, point2: PointLike) {
     return fuzzyEqual(point1.x, point2.x) && fuzzyEqual(point1.y, point2.y)
+  }
+
+  static PointInCircle(point: PointLike, circle: CircleLike) {
+    const Dist = OperatorManager.get('Dist')
+
+    const distance = Dist.PointDistPoint(point, circle.position)
+
+    return distance <= circle.radius
   }
 }
 
