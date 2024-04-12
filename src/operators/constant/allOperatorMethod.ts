@@ -1,6 +1,5 @@
 import type { UnionToIntersection } from 'type-fest'
 import type { OperatorMap } from '../models'
-import type { Point, ShapeTypeName } from '../../shapes'
 import type { GetMethodWithOperatorType } from './getMethodWithOperatorType'
 import type { GetOperatorMethodsMap } from './getOperatorMethodsMap'
 import type { GetOverloadMethods } from './getOverloadMethods'

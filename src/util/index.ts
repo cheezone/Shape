@@ -1,3 +1,5 @@
+import type { UnionToIntersection, ValueOf } from 'type-fest'
+
 /**
  * 检查给定的值是否在给定的误差范围内相等。
  *
@@ -21,7 +23,15 @@ export type NoNever<Input> = {
   [K in NoNeverKeys<Input>]: Input[K];
 }
 
-export type UnionToIntersection<U> =
-  (U extends U ? (x: U) => unknown : never) extends (x: infer R) => unknown
-    ? R
-    : never
+export type ReverseLookup<C, V> = UnionToIntersection<ValueOf<{
+  [K in FilterNever<{
+    [X in keyof C]:
+    C[X] extends V
+      ? C[X]
+      : never;
+  }>]: K
+}>>
+
+export type FilterNever<T> = {
+  [K in keyof T]: T[K] extends never ? never : K;
+}[keyof T]

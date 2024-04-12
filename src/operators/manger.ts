@@ -11,7 +11,7 @@ export class OperatorManager {
 
   static run: AllOperatorMethod = (operatorType: OperatorTypeName, ...operatorParameters: any[]) => {
     const operator = this.get(operatorType)
-    const methodName = OperatorManager.getFunctionName(operatorType, ...operatorParameters)
+    const methodName = OperatorManager.getFunctionName(operatorType, ...operatorParameters.map(p => p.type))
     const method = operator[methodName as keyof typeof operator] as unknown as Function
     return method.call(operator, ...operatorParameters)
   }

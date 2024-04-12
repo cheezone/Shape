@@ -1,5 +1,4 @@
-import type { ValueOf } from 'type-fest'
-import type { UnionToIntersection } from '../../util'
+import type { UnionToIntersection, ValueOf } from 'type-fest'
 
 /**
  * 把函数 Map 的值合并成函数重载。

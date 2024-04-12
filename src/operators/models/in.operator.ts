@@ -1,4 +1,4 @@
-import type { Point, Segment } from '../../shapes'
+import type { PointLike, SegmentLike } from '../../shapes'
 import { fuzzyEqual } from '../../util'
 import { OperatorManager } from '../manger'
 import { Operator } from './base'
@@ -11,15 +11,15 @@ export class InOperator extends Operator {
 
   staticClass = InOperator
 
-  static PointInSegment(point: Point, segment: Segment) {
+  static PointInSegment(point: PointLike, segment: SegmentLike) {
     return point.x >= segment.start.x && point.x <= segment.end.x && point.y >= segment.start.y && point.y <= segment.end.y
   }
 
-  static SegmentInSegment(segment1: Segment, segment2: Segment) {
+  static SegmentInSegment(segment1: SegmentLike, segment2: SegmentLike) {
     return this.PointInSegment(segment1.start, segment2) && this.PointInSegment(segment1.end, segment2)
   }
 
-  static PointInPoint(point1: Point, point2: Point) {
+  static PointInPoint(point1: PointLike, point2: PointLike) {
     return fuzzyEqual(point1.x, point2.x) && fuzzyEqual(point1.y, point2.y)
   }
 }

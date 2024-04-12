@@ -1,5 +1,7 @@
-import type { Point } from './Point.shape'
-import type { Segment } from './Segment.shape'
+import type { ValueOf } from 'type-fest'
+import type { ReverseLookup } from '../../util'
+import type { Point, PointLike } from './Point.shape'
+import type { Segment, SegmentLike } from './Segment.shape'
 
 export const ShapeEnum = {
   Segment: 'Segment',
@@ -11,5 +13,14 @@ export interface ShapeMap {
   Point: Point
 }
 
+export interface ShapeLikeMap {
+  Segment: SegmentLike
+  Point: PointLike
+}
+
 export type ShapeTypeName = keyof ShapeMap
 export type ShapeInstance = ShapeMap[ShapeTypeName]
+
+export type ShapeLikeToShape<ShapeLike> = ShapeLike extends ValueOf<ShapeLikeMap> ? ShapeMap[ReverseLookup<ShapeLikeMap, ShapeLike>] : ShapeLike
+
+export type ShapeToShapeLike<Shape extends ValueOf<ShapeMap>> = ShapeLikeMap[ReverseLookup<ShapeMap, Shape>]

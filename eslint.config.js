@@ -29,7 +29,7 @@ export default antfu(
         {
           order: ['[typeName]', '[staticClass]', '[static-properties]', '[static-methods]', '[properties]', '[conventional-private-properties]', 'constructor', '[methods]', '[conventional-private-methods]'],
           groups: {
-            typeName: [{ name: 'type' }],
+            typeName: [{ name: '/type|typeName/' }],
             staticClass: [{ name: 'staticClass' }],
           },
           accessorPairPositioning: 'getThenSet',
