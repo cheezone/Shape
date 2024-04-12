@@ -16,7 +16,9 @@ describe('point', () => {
     expect(point1.in(point3)).toBe(true)
 
     // @ts-expect-error 期望报错
-    point1.in({ x: 1, y: 1 })
+    expect(() => point1.in({ x: 1, y: 1 })).toThrowError(
+      `Cannot read properties of undefined (reading 'call')`,
+    )
   })
 
   it('point in segment', () => {
