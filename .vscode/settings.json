@@ -49,6 +49,7 @@
   // Spell ignore paths
   "cSpell.ignorePaths": [
     "package-lock.json",
+    "*.json",
     "node_modules",
     "vscode-extension",
     ".git/objects",
