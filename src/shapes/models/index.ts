@@ -1,3 +1,4 @@
+export * from './Circle.shape'
 export * from './Point.shape'
 export * from './Segment.shape'
 export * from './base.shape'
