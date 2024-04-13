@@ -5,5 +5,5 @@ import type { GetOperator } from './getOperator'
 type In = GetOperator<'In'>
 
 test('Get Operator class by typeName', () => {
-  expectTypeOf(new InOperator().staticClass).toMatchTypeOf<In>()
+  expectTypeOf(InOperator).toMatchTypeOf<In>()
 })

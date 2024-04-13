@@ -27,10 +27,9 @@ export default antfu(
       'sort-class-members/sort-class-members': [
         2,
         {
-          order: ['[typeName]', '[staticClass]', '[static-properties]', '[static-methods]', '[properties]', '[conventional-private-properties]', 'constructor', '[methods]', '[conventional-private-methods]'],
+          order: ['[typeName]', '[static-properties]', '[static-methods]', '[properties]', '[conventional-private-properties]', 'constructor', '[methods]', '[conventional-private-methods]'],
           groups: {
             typeName: [{ name: '/type|typeName/' }],
-            staticClass: [{ name: 'staticClass' }],
           },
           accessorPairPositioning: 'getThenSet',
         },

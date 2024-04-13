@@ -8,10 +8,13 @@ import { ShapeEnum } from './type'
 export class Circle extends Shape<CircleLike> implements CircleLike {
   type = ShapeEnum.Circle
 
-  static default() {
+  static create(cx: number, cy: number, radius: number, startAngle?: number, endAngle?: number, counterClockwise?: boolean) {
     return new Circle({
-      position: Point.default(),
-      radius: 1,
+      position: Point.create(cx, cy),
+      radius,
+      startAngle,
+      endAngle,
+      counterClockwise,
     })
   }
 

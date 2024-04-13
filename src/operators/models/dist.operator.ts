@@ -9,8 +9,6 @@ import { Operator } from './base'
 export class DistOperator extends Operator {
   static type = 'Dist' as const
 
-  staticClass = DistOperator
-
   /**
    * 计算两点之间的距离。
    * @param point1 第一个点
@@ -111,16 +109,24 @@ export class DistOperator extends Operator {
    */
   static CircleDistSegment(circle: CircleLike, segment: SegmentLike) {
     const { start, end } = segment
-    const distanceToStart = DistOperator.PointDistPoint(circle.position, start)
-    const distanceToEnd = DistOperator.PointDistPoint(circle.position, end)
 
-    // 如果线段的两个端点都在圆内，返回线段的两个端点到圆心的距离的较小值减去圆的半径
-    if (distanceToStart <= circle.radius && distanceToEnd <= circle.radius)
-      return Math.min(distanceToStart, distanceToEnd) - circle.radius
+    const { position: circlePosition, radius } = circle
 
-    // 如果线段的两个端点都在圆外，返回它们的距离的较小值减去圆的半径
-    if (distanceToStart > circle.radius && distanceToEnd > circle.radius)
-      return Math.min(distanceToStart, distanceToEnd) - circle.radius
+    const distanceToStart = DistOperator.PointDistPoint(circlePosition, start)
+    const distanceToEnd = DistOperator.PointDistPoint(circlePosition, end)
+    const distance = DistOperator.PointDistSegment(circlePosition, segment)
+
+    // 如果线段的两个端点都在圆外
+    if (distanceToStart > circle.radius && distanceToEnd > circle.radius) {
+      if (distance <= radius)
+        return 0
+      else
+        return Math.abs(distance - radius)
+    }
+
+    // 如果线段的两个端点都在圆内
+    if (distanceToStart < radius && distanceToEnd < radius)
+      return Math.abs(Math.max(distanceToStart, distanceToEnd) - radius)
 
     // 否则，返回 0
     return 0
