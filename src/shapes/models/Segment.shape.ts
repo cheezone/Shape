@@ -8,10 +8,10 @@ import { ShapeEnum } from './type'
 export class Segment extends Shape<SegmentLike> implements SegmentLike {
   type = ShapeEnum.Segment
 
-  static default() {
+  static create(x1: number, y1: number, x2: number, y2: number) {
     return new Segment({
-      start: { x: 0, y: 0 },
-      end: { x: 1, y: 1 },
+      start: Point.create(x1, y1),
+      end: Point.create(x2, y2),
     })
   }
 

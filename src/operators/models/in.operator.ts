@@ -9,8 +9,6 @@ import { Operator } from './base'
 export class InOperator extends Operator {
   static type = 'In' as const
 
-  staticClass = InOperator
-
   static PointInSegment(point: PointLike, segment: SegmentLike) {
     return point.x >= segment.start.x && point.x <= segment.end.x && point.y >= segment.start.y && point.y <= segment.end.y
   }

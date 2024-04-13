@@ -7,8 +7,8 @@ import { ShapeEnum } from './type'
 export class Point extends Shape<PointLike> implements PointLike {
   type = ShapeEnum.Point
 
-  static default() {
-    return new Point({ x: 0, y: 0 })
+  static create(x: number, y: number) {
+    return new Point({ x, y })
   }
 
   get x() { return this.data.x }
