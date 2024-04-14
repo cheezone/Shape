@@ -1,6 +1,7 @@
 import type { ShapeLikeToShape } from '../../shapes'
 import type { FilterNever } from '../../util'
-import type { OperatorMap } from '../models'
+import type { AliasOperatorEnum, OperatorMap } from '../models'
+
 import type { GetOverloadMethods } from './getOverloadMethods'
 
 /**
@@ -10,6 +11,9 @@ type GetShapeMethodByOperator<TOperatorName extends keyof OperatorMap> = GetOver
 
 export type GetShapeOperatorMethod = {
   [K in keyof OperatorMap as Uncapitalize<K>]: GetShapeMethodByOperator<K>
+} & {
+  [K in keyof typeof AliasOperatorEnum as Uncapitalize<K>]: GetShapeMethodByOperator<typeof AliasOperatorEnum[K]>
+
 }
 
 type StaticMethodsWithParams<C> = {

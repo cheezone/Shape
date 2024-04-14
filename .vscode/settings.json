@@ -43,7 +43,8 @@
   // Spell check
   "cSpell.words": [
     "antfu",
-    "Cheez"
+    "Cheez",
+    "lerp"
   ],
 
   // Spell ignore paths

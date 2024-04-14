@@ -2,12 +2,13 @@ import type { CircleLike, PointLike, SegmentLike } from '../../shapes'
 import { OperatorManager } from '../manger'
 
 import { Operator } from './base'
+import { OperatorEnum } from './types'
 
 /**
  * 距离。
  */
 export class DistOperator extends Operator {
-  static type = 'Dist' as const
+  static type = OperatorEnum.Dist
 
   /**
    * 计算两点之间的距离。
