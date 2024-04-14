@@ -26,7 +26,7 @@ export type NoNever<Input> = {
 export type ReverseLookup<C, V> = UnionToIntersection<ValueOf<{
   [K in FilterNever<{
     [X in keyof C]:
-    C[X] extends V
+    V extends C[X]
       ? C[X]
       : never;
   }>]: K

@@ -14,16 +14,16 @@ export const ShapeEnum = {
 
 export interface ShapeMap {
   Segment: Segment
+  Vector: Vector
   Point: Point
   Circle: Circle
-  Vector: Vector
 }
 
 export interface ShapeLikeMap {
   Segment: SegmentLike
+  Vector: VectorLike
   Point: PointLike
   Circle: CircleLike
-  Vector: VectorLike
 }
 
 export type ShapeTypeName = keyof ShapeMap
