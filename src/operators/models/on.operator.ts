@@ -3,12 +3,13 @@ import { fuzzyEqual } from '../../util'
 import { OperatorManager } from '../manger'
 
 import { Operator } from './base'
+import { OperatorEnum } from './types'
 
 /**
  * 在……上。
  */
 export class OnOperator extends Operator {
-  static type = 'On' as const
+  static type = OperatorEnum.On
 
   static PointOnPoint(point1: PointLike, point2: PointLike) {
     return fuzzyEqual(point1.x, point2.x) && fuzzyEqual(point1.y, point2.y)

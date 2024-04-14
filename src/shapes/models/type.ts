@@ -3,23 +3,27 @@ import type { ReverseLookup } from '../../util'
 import type { Point, PointLike } from './Point.shape'
 import type { Segment, SegmentLike } from './Segment.shape'
 import type { Circle, CircleLike } from './Circle.shape'
+import type { Vector, VectorLike } from './Vector.shape'
 
 export const ShapeEnum = {
   Segment: 'Segment',
   Point: 'Point',
   Circle: 'Circle',
+  Vector: 'Vector',
 } as const
 
 export interface ShapeMap {
   Segment: Segment
   Point: Point
   Circle: Circle
+  Vector: Vector
 }
 
 export interface ShapeLikeMap {
   Segment: SegmentLike
   Point: PointLike
   Circle: CircleLike
+  Vector: VectorLike
 }
 
 export type ShapeTypeName = keyof ShapeMap

@@ -2,12 +2,13 @@ import type { CircleLike, PointLike, SegmentLike } from '../../shapes'
 import { fuzzyEqual } from '../../util'
 import { OperatorManager } from '../manger'
 import { Operator } from './base'
+import { OperatorEnum } from './types'
 
 /**
  * 在……什么内部。
  */
 export class InOperator extends Operator {
-  static type = 'In' as const
+  static type = OperatorEnum.In
 
   static PointInSegment(point: PointLike, segment: SegmentLike) {
     return point.x >= segment.start.x && point.x <= segment.end.x && point.y >= segment.start.y && point.y <= segment.end.y

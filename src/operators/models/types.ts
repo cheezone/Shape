@@ -15,5 +15,9 @@ export const OperatorEnum = {
   Dist: 'Dist',
 } as const
 
+export const AliasOperatorEnum = {
+  DistanceTo: 'Dist',
+} as const
+
 export type OperatorTypeName = Simplify<keyof OperatorMap>
 export type OperatorClass = OperatorMap[OperatorTypeName]
