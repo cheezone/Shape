@@ -1,5 +1,4 @@
 import { assign } from 'lodash-es'
-import { Simplify } from 'type-fest'
 import type { Point, PointLike } from './Point.shape'
 import { castPoint } from './Point.shape'
 import { Shape } from './base.shape'
