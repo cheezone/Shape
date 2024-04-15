@@ -1,5 +1,6 @@
-import { ShapeManager } from '../../managers/'
+import { ShapeManager } from '../../managers'
 import type { PointLike } from './Point.shape'
+import { Shape } from './base.shape'
 import { ShapeEnum } from './type'
 
 interface PartVectorLike {
@@ -11,7 +12,7 @@ interface PartVectorLike {
 /**
  * 向量。
  */
-export class Vector implements VectorLike {
+export class Vector extends Shape<VectorLike> implements VectorLike {
   type = ShapeEnum.Vector
 
   static create(x: number, y: number, z = 0) {
@@ -41,7 +42,9 @@ export class Vector implements VectorLike {
     return x1 * y2 - x2 * y1 + z1 * z2
   }
 
-  constructor(public data: VectorLike) {
+  constructor(data: VectorLike) {
+    super(data)
+
     data.z ??= 0
   }
 
@@ -202,5 +205,4 @@ export interface VectorLike {
    */
   z: number
 }
-
 ShapeManager.register(ShapeEnum.Vector, Vector)
