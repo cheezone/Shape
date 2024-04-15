@@ -4,15 +4,15 @@ import { DistOperator } from './dist.operator'
 
 describe('点到点的距离', () => {
   it('相同点', () => {
-    expect(DistOperator.PointDistPoint(Point.create(-0, 0), Point.create(0, 0))).toEqual(0)
+    expect(Point.create(-0, 0).distanceTo(Point.create(0, 0))).toEqual(0)
     expect(DistOperator.PointDistPoint(Point.create(1, 1), Point.create(1, 1))).toEqual(0)
     expect(DistOperator.PointDistPoint(Point.create(-1, -1), Point.create(-1, -1))).toEqual(0)
   })
 
   it('不同点', () => {
     expect(DistOperator.PointDistPoint(Point.create(0, 0), Point.create(1, 0))).toEqual(1)
-    expect(DistOperator.PointDistPoint(Point.create(0, 0), Point.create(1, 1))).toEqual(Math.sqrt(2))
-    expect(DistOperator.PointDistPoint(Point.create(-1, -1), Point.create(1, 1))).toEqual(2 * Math.sqrt(2))
+    expect(DistOperator.PointDistPoint(Point.create(0, 0), Point.create(1, 1))).toEqual(Math.SQRT2)
+    expect(DistOperator.PointDistPoint(Point.create(-1, -1), Point.create(1, 1))).toEqual(2 * Math.SQRT2)
     expect(DistOperator.PointDistPoint(Point.create(9, 1), Point.create(11, 1))).toEqual(2)
     expect(DistOperator.PointDistPoint(Point.create(9, 1), Point.create(11, 5))).toEqual(4.47213595499958)
     expect(DistOperator.PointDistPoint(Point.create(8, 4), Point.create(24, 8))).toEqual(16.492422502470642)
@@ -44,7 +44,7 @@ describe('圆和线段的距离', () => {
     expect(DistOperator.CircleDistSegment(circle, segment)).toEqual(1)
 
     const segment2 = Segment.create(-1, -1, 1, 1)
-    expect(DistOperator.CircleDistSegment(circle, segment2)).toEqual(2 - Math.sqrt(2))
+    expect(DistOperator.CircleDistSegment(circle, segment2)).toEqual(2 - Math.SQRT2)
   })
 
   it('线段部分在圆内，部分在圆外', () => {
@@ -68,10 +68,10 @@ describe('圆和线段的距离', () => {
   it('线段在圆外部', () => {
     const circle = Circle.create(0, 0, 1)
     const segment = Segment.create(-3, 1, -1, 1)
-    expect(DistOperator.CircleDistSegment(circle, segment)).toEqual(Math.sqrt(2) - 1)
+    expect(DistOperator.CircleDistSegment(circle, segment)).toEqual(Math.SQRT2 - 1)
 
     const segment2 = Segment.create(1, 1, 4, 3)
-    expect(DistOperator.CircleDistSegment(circle, segment2)).toEqual(Math.sqrt(2) - 1)
+    expect(DistOperator.CircleDistSegment(circle, segment2)).toEqual(Math.SQRT2 - 1)
   })
 })
 
@@ -86,13 +86,13 @@ describe('点和线段的距离', () => {
   it('点在线段延长线上，且垂直于线段', () => {
     const point = Point.create(2, 0)
     const segment = Segment.create(-1, -1, 1, 1)
-    expect(DistOperator.PointDistSegment(point, segment)).toEqual(Math.sqrt(2))
+    expect(DistOperator.PointDistSegment(point, segment)).toEqual(Math.SQRT2)
   })
 
   it('点不在线段上', () => {
     const point = Point.create(2, 2)
     const segment = Segment.create(-1, -1, 1, 1)
-    expect(DistOperator.PointDistSegment(point, segment)).toEqual(Math.sqrt(2))
+    expect(DistOperator.PointDistSegment(point, segment)).toEqual(Math.SQRT2)
   })
 })
 
@@ -140,12 +140,15 @@ describe('线段和线段的距离', () => {
     const segment1 = Segment.create(0, 0, 1, 1)
     const segment2 = Segment.create(2, 0, 3, 1)
     expect(DistOperator.SegmentDistSegment(segment1, segment2)).toEqual(Math.SQRT2)
+    expect(segment1.distanceTo(segment2)).toEqual(Math.SQRT2)
   })
 
   it('线段重合', () => {
     const segment1 = Segment.create(0, 0, 1, 1)
-    const segment2 = Segment.create(0, 0, 1, 1)
+    const segment2 = segment1.clone()
     expect(DistOperator.SegmentDistSegment(segment1, segment2)).toEqual(0)
+    expect(segment1.distanceTo(segment2)).toEqual(0)
+    expect(segment1.dist(segment2)).toEqual(0)
   })
 })
 

@@ -1,7 +1,8 @@
 /* eslint-disable ts/no-unsafe-declaration-merging */
 import { cloneDeep, lowerFirst } from 'lodash-es'
-import { AliasOperatorEnum, type GetShapeOperatorMethod, OperatorEnum } from '../../operators'
 import { OperatorManager } from '../../managers'
+import { AliasOperatorEnum, type GetShapeOperatorMethod, OperatorEnum } from '../../operators'
+import type { ShapeMap, ShapeTypeName } from './type'
 
 export interface ShapeData { }
 
@@ -9,8 +10,9 @@ export class Shape<TData extends ShapeData = ShapeData> {
   constructor(public data: TData) {
   }
 
-  clone(): Shape<TData> {
-    return new Shape(cloneDeep(this.data))
+  clone<T extends ShapeMap[ShapeTypeName]>(this: T): T {
+    const Class = this.constructor as any
+    return new Class(cloneDeep(this.data as T['data']))
   }
 }
 

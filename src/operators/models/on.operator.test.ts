@@ -12,15 +12,15 @@ describe('点与点的包含关系', () => {
   it('相同点', () => {
     expect(OnOperator.PointOnPoint(point1, point3)).toBe(true)
     expect(OnOperator.PointOnPoint(point1, { x: 1, y: 1 })).toBe(true)
-    expect(point1.in(point3)).toBe(true)
+    expect(point1.on(point3)).toBe(true)
   })
 
   it('不同点', () => {
     expect(OnOperator.PointOnPoint(point1, point2)).toBe(false)
-    expect(point1.in(point2)).toBe(false)
+    expect(point1.on(point2)).toBe(false)
 
     // @ts-expect-error 期望报错
-    expect(() => point1.in({ x: 1, y: 1 })).toThrowError(
+    expect(() => point1.on({ x: 1, y: 1 })).toThrowError(
       `Cannot read properties of undefined (reading 'call')`,
     )
   })
@@ -29,13 +29,18 @@ describe('点与点的包含关系', () => {
 describe('点与线段的包含关系', () => {
   it('点在线段上', () => {
     expect(OnOperator.PointOnSegment(point1, segment1)).toBe(true)
-    expect(point1.in(segment1)).toBe(true)
+    expect(point1.on(segment1)).toBe(true)
   })
 
   it('线段在点上', () => {
     // @ts-expect-error 期望报错
-    expect(() => segment1.in({ x: 1, y: 1 })).toThrowError(
+    expect(() => segment1.on({ x: 1, y: 1 })).toThrowError(
       `Cannot read properties of undefined (reading 'call')`,
     )
   })
 })
+
+// TODO: 线段与线段的包含关系
+// TODO: 线段与圆的包含关系
+// TODO: 点与圆的包含关系
+// TODO: 圆与圆的包含关系
