@@ -1,5 +1,13 @@
+import { ShapeManager } from '../../managers'
+import type { PointLike } from './Point.shape'
 import { Shape } from './base.shape'
 import { ShapeEnum } from './type'
+
+interface PartVectorLike {
+  x: number
+  y: number
+  z?: number
+}
 
 /**
  * 向量。
@@ -9,6 +17,29 @@ export class Vector extends Shape<VectorLike> implements VectorLike {
 
   static create(x: number, y: number, z = 0) {
     return new Vector({ x, y, z })
+  }
+
+  static from(start: PointLike, end: PointLike) {
+    return new Vector({ x: end.x - start.x, y: end.y - start.y, z: 0 })
+  }
+
+  /**
+   * 点乘
+   *
+   * @returns 向量 A 在向量 B 上的投影与向量 B 长度的乘积
+   */
+  static dotProduct({ x: x1, y: y1, z: z1 = 0 }: PartVectorLike, { x: x2, y: y2, z: z2 = 0 }: PartVectorLike) {
+    return x1 * x2 + y1 * y2 + z1 * z2
+  }
+
+  /**
+   * 叉乘
+   *
+   * @description 等于 0 代表平行；大于 0 代表 逆时针旋转；小于 0 代表顺时针旋转
+   * @returns 向量 A 和向量 B 组成的平行四边形的面积
+   */
+  static crossProduct({ x: x1, y: y1, z: z1 = 0 }: PartVectorLike, { x: x2, y: y2, z: z2 = 0 }: PartVectorLike) {
+    return x1 * y2 - x2 * y1 + z1 * z2
   }
 
   constructor(data: VectorLike) {
@@ -56,7 +87,7 @@ export class Vector extends Shape<VectorLike> implements VectorLike {
    * @param v 另一个向量
    */
   dot(v: Vector): number {
-    return this.data.x * v.x + this.data.y * v.y + this.data.z * v.z
+    return Vector.dotProduct(this, v)
   }
 
   /**
@@ -174,3 +205,4 @@ export interface VectorLike {
    */
   z: number
 }
+ShapeManager.register(ShapeEnum.Vector, Vector)

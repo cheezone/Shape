@@ -1,3 +1,4 @@
+import { ShapeManager } from '../../managers/'
 import { Shape } from './base.shape'
 import { ShapeEnum } from './type'
 
@@ -40,3 +41,5 @@ export interface PointLike {
    */
   y: number
 }
+
+ShapeManager.register(ShapeEnum.Point, Point)

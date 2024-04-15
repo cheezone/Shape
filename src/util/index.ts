@@ -7,11 +7,11 @@ import type { UnionToIntersection, ValueOf } from 'type-fest'
  *
  * @param a - 第一个值。
  * @param b - 第二个值。
- * @param epsilon - 误差范围，默认为 0.0001。
+ * @param epsilon - 误差范围，默认为 1e-5。
  *
  * @returns 如果两个值在给定的误差范围内相等，则返回 `true`，否则返回 `false`。
  */
-export function fuzzyEqual(a: number, b: number, epsilon: number = 0.0001): boolean {
+export function fuzzyEqual(a: number, b: number, epsilon: number = 1e-5): boolean {
   return Math.abs(a - b) < epsilon
 }
 

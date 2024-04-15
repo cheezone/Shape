@@ -1,5 +1,5 @@
+import { OperatorManager, ShapeManager } from '../../managers'
 import type { CircleLike, PointLike, SegmentLike } from '../../shapes'
-import { OperatorManager } from '../manger'
 
 import { Operator } from './base'
 import { OperatorEnum } from './types'
@@ -28,17 +28,44 @@ export class DistOperator extends Operator {
    */
   static PointDistSegment(point: PointLike, segment: SegmentLike) {
     const { start, end } = segment
-    const lineLength = DistOperator.PointDistPoint(start, end)
-    if (lineLength === 0)
-      return DistOperator.PointDistPoint(point, start)
 
-    const t = Math.max(0, Math.min(1, ((point.x - start.x) * (end.x - start.x) + (point.y - start.y) * (end.y - start.y)) / (lineLength ** 2)))
-    const projection = {
-      x: start.x + t * (end.x - start.x),
-      y: start.y + t * (end.y - start.y),
+    const { x, y } = point
+    const { x: x1, y: y1 } = start
+    const { x: x2, y: y2 } = end
+
+    const C = x2 - x1
+    const D = y2 - y1
+
+    const Segment = ShapeManager.get('Segment')
+    const param = Segment.getParam(segment, point)
+
+    let xx, yy
+
+    // 点在线段外，且靠近起点
+    if (param < 0) {
+      xx = x1
+      yy = y1
+    }
+    // 点在线段外，且靠近终点
+    else if (param > 1) {
+      xx = x2
+      yy = y2
+    }
+    // 点在线段上
+    else {
+      xx = x1 + param * C
+      yy = y1 + param * D
     }
 
-    return DistOperator.PointDistPoint(point, projection)
+    const dx = x - xx
+    const dy = y - yy
+
+    const distance = Math.sqrt(dx * dx + dy * dy)
+
+    if (Math.abs(distance) < 1e-5)
+      return 0
+
+    return distance
   }
 
   /**
@@ -58,25 +85,37 @@ export class DistOperator extends Operator {
    * @returns 两线段之间的距离
    */
   static SegmentDistSegment(segment1: SegmentLike, segment2: SegmentLike) {
-    const { start: a1, end: a2 } = segment1
-    const { start: b1, end: b2 } = segment2
-
-    // 计算两线段的向量
-    const vecA = { x: a2.x - a1.x, y: a2.y - a1.y }
-    const vecB = { x: b2.x - b1.x, y: b2.y - b1.y }
-
-    // 计算向量的叉积
-    const crossProduct = vecA.x * vecB.y - vecA.y * vecB.x
-
-    // 如果叉积为 0，说明两线段平行
-    if (crossProduct === 0)
-      return DistOperator.PointDistSegment(a1, segment2) // 返回两线段之间最短的垂直距离
+    const { start: A, end: B } = segment1
+    const { start: C, end: D } = segment2
 
     // 计算线段间的距离
-    const dist1 = DistOperator.PointDistSegment(a1, segment2)
-    const dist2 = DistOperator.PointDistSegment(a2, segment2)
-    const dist3 = DistOperator.PointDistSegment(b1, segment1)
-    const dist4 = DistOperator.PointDistSegment(b2, segment1)
+    const dist1 = DistOperator.PointDistSegment(A, segment2)
+    const dist2 = DistOperator.PointDistSegment(B, segment2)
+    const dist3 = DistOperator.PointDistSegment(C, segment1)
+    const dist4 = DistOperator.PointDistSegment(D, segment1)
+
+    // 向量
+    const Vector = ShapeManager.get('Vector')
+
+    const AC = Vector.from(A, C)
+    const AD = Vector.from(A, D)
+    const BC = Vector.from(B, C)
+    const BD = Vector.from(B, D)
+
+    const CA = (AC.negate())
+    const CB = (BC.negate())
+    const DA = (AD.negate())
+    const DB = (BD.negate())
+
+    // 叉乘
+    const d1 = Vector.crossProduct(AC, AD)
+    const d2 = Vector.crossProduct(BC, BD)
+    const d3 = Vector.crossProduct(CA, CB)
+    const d4 = Vector.crossProduct(DA, DB)
+
+    // 如果线段相交，返回 0
+    if (d1 * d2 < 0 && d3 * d4 < 0)
+      return 0
 
     return Math.min(dist1, dist2, dist3, dist4)
   }
