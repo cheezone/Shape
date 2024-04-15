@@ -19,6 +19,13 @@ export interface ShapeMap {
   Circle: Circle
 }
 
+export interface ShapeClassMap {
+  Segment: typeof Segment
+  Vector: typeof Vector
+  Point: typeof Point
+  Circle: typeof Circle
+}
+
 export interface ShapeLikeMap {
   Segment: SegmentLike
   Vector: VectorLike

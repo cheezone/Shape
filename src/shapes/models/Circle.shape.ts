@@ -1,4 +1,5 @@
 import { assign } from 'lodash-es'
+import { ShapeManager } from '../../managers/'
 import type { Point, PointLike } from './Point.shape'
 import { castPoint } from './Point.shape'
 import { Shape } from './base.shape'
@@ -105,3 +106,5 @@ export interface CircleLike {
    */
   counterClockwise?: boolean
 }
+
+ShapeManager.register(ShapeEnum.Circle, Circle)

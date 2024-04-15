@@ -1,6 +1,6 @@
 import type { CircleLike, PointLike, SegmentLike } from '../../shapes'
 import { fuzzyEqual } from '../../util'
-import { OperatorManager } from '../manger'
+import { OperatorManager } from '../../managers/'
 import { Operator } from './base'
 import { OperatorEnum } from './types'
 

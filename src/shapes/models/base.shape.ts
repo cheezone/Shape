@@ -1,6 +1,7 @@
 /* eslint-disable ts/no-unsafe-declaration-merging */
 import { cloneDeep, lowerFirst } from 'lodash-es'
-import { AliasOperatorEnum, type GetShapeOperatorMethod, OperatorEnum, OperatorManager } from '../../operators'
+import { AliasOperatorEnum, type GetShapeOperatorMethod, OperatorEnum } from '../../operators'
+import { OperatorManager } from '../../managers'
 
 export interface ShapeData { }
 
