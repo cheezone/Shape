@@ -1,4 +1,6 @@
-import { Point, type PointLike } from './Point.shape'
+import { assign } from 'lodash-es'
+import type { Point, PointLike } from './Point.shape'
+import { castPoint } from './Point.shape'
 import { Shape } from './base.shape'
 import { ShapeEnum } from './type'
 
@@ -10,7 +12,10 @@ export class Circle extends Shape<CircleLike> implements CircleLike {
 
   static create(cx: number, cy: number, radius: number, startAngle?: number, endAngle?: number, counterClockwise?: boolean) {
     return new Circle({
-      position: Point.create(cx, cy),
+      position: {
+        x: cx,
+        y: cy,
+      },
       radius,
       startAngle,
       endAngle,
@@ -23,7 +28,7 @@ export class Circle extends Shape<CircleLike> implements CircleLike {
   constructor(data: CircleLike) {
     super(data)
 
-    this._positionPoint = new Point(this.data.position)
+    this._positionPoint = castPoint(this.data.position)
   }
 
   get radius() {
@@ -62,8 +67,8 @@ export class Circle extends Shape<CircleLike> implements CircleLike {
     return this._positionPoint
   }
 
-  set position(value: PointLike) {
-    this._positionPoint.data = value
+  set position(value: Readonly<PointLike>) {
+    assign(this.data.position, value)
   }
 }
 
