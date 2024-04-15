@@ -1,4 +1,6 @@
-import { Point, type PointLike } from './Point.shape'
+import { assign } from 'lodash-es'
+import { castPoint } from './Point.shape'
+import type { Point, PointLike } from './Point.shape'
 import { Shape } from './base.shape'
 import { ShapeEnum } from './type'
 
@@ -10,8 +12,14 @@ export class Segment extends Shape<SegmentLike> implements SegmentLike {
 
   static create(x1: number, y1: number, x2: number, y2: number) {
     return new Segment({
-      start: Point.create(x1, y1),
-      end: Point.create(x2, y2),
+      start: {
+        x: x1,
+        y: y1,
+      },
+      end: {
+        x: x2,
+        y: y2,
+      },
     })
   }
 
@@ -21,24 +29,24 @@ export class Segment extends Shape<SegmentLike> implements SegmentLike {
   constructor(data: SegmentLike) {
     super(data)
 
-    this._startPoint = new Point(this.data.start)
-    this._endPoint = new Point(this.data.end)
+    this._startPoint = castPoint(this.data.start)
+    this._endPoint = castPoint(this.data.end)
   }
 
   get start(): Point {
     return this._startPoint
   }
 
-  set start(value: PointLike) {
-    this._startPoint.data = value
+  set start(value: Readonly<PointLike>) {
+    assign(this.data.start, value)
   }
 
   get end(): Point {
     return this._endPoint
   }
 
-  set end(value: PointLike) {
-    this._endPoint.data = value
+  set end(value: Readonly<PointLike>) {
+    assign(this.data.end, value)
   }
 }
 
