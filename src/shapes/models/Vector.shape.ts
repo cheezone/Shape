@@ -168,13 +168,6 @@ export class Vector extends Shape<VectorLike> implements VectorLike {
   angleTo(v: Vector): number {
     return Math.acos(this.dot(v) / (this.magnitude() * v.magnitude()))
   }
-
-  /**
-   * 返回当前向量的副本。
-   */
-  clone(): Vector {
-    return new Vector({ ...this.data })
-  }
 }
 
 /**
