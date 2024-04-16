@@ -1,5 +1,6 @@
 import { OperatorManager, ShapeManager } from '../../managers'
 import type { CircleLike, PointLike, SegmentLike } from '../../shapes'
+import { fuzzyEqual } from '../../util'
 
 import { Operator } from './base'
 import { OperatorEnum } from './types'
@@ -64,7 +65,34 @@ export class DistOperator extends Operator {
     return Math.min(dist1, dist2, dist3, dist4)
   }
 
-  // TODO：CircleDistCircle
+  /**
+   * 计算两个圆形对象之间的距离。
+   *
+   * @param circle1 第一个圆形对象。
+   * @param circle2 第二个圆形对象。
+   * @returns 这两个圆形对象之间的距离。
+   */
+  static CircleDistCircle(circle1: CircleLike, circle2: CircleLike): number {
+    // 获取第一个圆的半径
+    const r1 = circle1.radius
+
+    // 获取第二个圆的半径
+    const r2 = circle2.radius
+
+    // 计算两个圆心之间的距离
+    const distance = DistOperator.PointDistPoint(circle1.position, circle2.position)
+
+    if (fuzzyEqual(distance, 0))
+      return Math.abs(r1 - r2)
+
+    // TODO 完善
+    // 判断两个圆是否相交或内切
+    if (distance < r1 + r2)
+      return 0
+
+    // 计算圆心距离与半径之和的差的绝对值，并始终返回非负值
+    return Math.max(r1 + r2 - distance, 0)
+  }
 
   // #endregion
 
