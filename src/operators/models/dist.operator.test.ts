@@ -152,6 +152,38 @@ describe('线段和线段的距离', () => {
   })
 })
 
+describe('圆圆距离', () => {
+  it('圆相交', () => {
+    const circle1 = Circle.create(0, 0, 2)
+    const circle2 = Circle.create(1, 0, 1)
+    expect(DistOperator.CircleDistCircle(circle1, circle2)).toEqual(0)
+  })
+
+  it('圆相切', () => {
+    const circle1 = Circle.create(0, 0, 2)
+    const circle2 = Circle.create(2, 0, 2)
+    expect(DistOperator.CircleDistCircle(circle1, circle2)).toEqual(0)
+  })
+
+  it('圆同心', () => {
+    const circle1 = Circle.create(0, 0, 2)
+    const circle2 = Circle.create(0, 0, 2)
+    expect(DistOperator.CircleDistCircle(circle1, circle2)).toEqual(0)
+  })
+
+  it('一个圆完全包含另一个圆', () => {
+    const circle1 = Circle.create(0, 0, 4)
+    const circle2 = Circle.create(0, 0, 2)
+    expect(DistOperator.CircleDistCircle(circle1, circle2)).toEqual(2)
+  })
+
+  it('圆完全分离', () => {
+    const circle1 = Circle.create(0, 0, 2)
+    const circle2 = Circle.create(4, 0, 2)
+    expect(DistOperator.CircleDistCircle(circle1, circle2)).toEqual(0)
+  })
+})
+
 describe('其他情况', () => {
   it('非法输入', () => {
     // @ts-expect-error 对 null 需要抛出错误
