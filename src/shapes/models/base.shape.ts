@@ -22,7 +22,8 @@ export class Shape<TData extends ShapeData = ShapeData> {
    * 克隆当前图形实例。
    */
   clone<T extends ShapeMap[ShapeTypeName]>(this: T): T {
-    return new (Object.getPrototypeOf(this).constructor)(cloneDeep(this.data as T['data']))
+    const Class = this.constructor as any
+    return new Class(cloneDeep(this.data as T['data']))
   }
 }
 
@@ -34,14 +35,14 @@ export interface Shape extends GetShapeOperatorMethod { }
 export function applyShapeMixins() {
   // 添加操作方法
   for (const iterator of Object.values(OperatorEnum)) {
-    Object.getPrototypeOf(Shape)[lowerFirst(iterator)] = function (this: Shape, ...p: [any]) {
+    (Shape as any).prototype[lowerFirst(iterator)] = function (this: Shape, ...p: [any]) {
       return OperatorManager.run(iterator as any, this as any, ...p)
     }
   }
 
   // 添加别名操作方法
   for (const [alias, operatorType] of Object.entries(AliasOperatorEnum)) {
-    Object.getPrototypeOf(Shape)[lowerFirst(alias)] = function (this: Shape, ...p: [any]) {
+    (Shape as any).prototype[lowerFirst(alias)] = function (this: Shape, ...p: [any]) {
       return OperatorManager.run(operatorType as any, this as any, ...p)
     }
   }
