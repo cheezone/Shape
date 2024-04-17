@@ -32,7 +32,7 @@ jobs:
       - name: Lint
         run: nr lint
 
-  circularcheck:
+  circular-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -54,7 +54,7 @@ jobs:
       - name: Check circular
         run: nlx dpdm ./src/index.ts -T --no-tree --no-warning  --exit-code circular:1 --skip-dynamic-imports circular
 
-  typecheck:
+  type-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -74,9 +74,9 @@ jobs:
         run: nci
 
       - name: Typecheck
-        run: nlx typecheck
+        run: nr typecheck
 
-  typetest:
+  type-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -98,7 +98,7 @@ jobs:
       - name: Typecheck
         run: nr type:test
 
-  typecoverage:
+  type-coverage:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
