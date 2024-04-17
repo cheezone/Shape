@@ -15,14 +15,33 @@ export function fuzzyEqual(a: number, b: number, epsilon: number = 1e-5): boolea
   return Math.abs(a - b) < epsilon
 }
 
+/**
+ * 从类型 `T` 中筛选出不是 `never` 类型的键。
+ *
+ * @template T - 待筛选的类型。
+ * @returns 不是 `never` 类型的键组成的类型。
+ */
 export type NoNeverKeys<T> = {
   [K in keyof T]: T[K] extends never ? never : K;
 }[keyof T]
 
+/**
+ * 从类型 `Input` 中移除 `never` 类型的属性。
+ *
+ * @template Input - 待处理的类型。
+ * @returns 移除 `never` 类型属性后的类型。
+ */
 export type NoNever<Input> = {
   [K in NoNeverKeys<Input>]: Input[K];
 }
 
+/**
+ * 反向查找类型 `C` 中值类型为 `V` 的键。
+ *
+ * @template C - 包含值的类型。
+ * @template V - 要查找的值的类型。
+ * @returns 匹配的键组成的交集类型。
+ */
 export type ReverseLookup<C, V> = UnionToIntersection<ValueOf<{
   [K in FilterNever<{
     [X in keyof C]:
@@ -32,6 +51,12 @@ export type ReverseLookup<C, V> = UnionToIntersection<ValueOf<{
   }>]: K
 }>>
 
+/**
+ * 从类型 `T` 中筛选出不是 `never` 类型的键。
+ *
+ * @template T - 待筛选的类型。
+ * @returns 不是 `never` 类型的键组成的类型。
+ */
 export type FilterNever<T> = {
   [K in keyof T]: T[K] extends never ? never : K;
 }[keyof T]

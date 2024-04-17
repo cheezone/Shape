@@ -32,7 +32,7 @@ jobs:
       - name: Lint
         run: nr lint
 
-  circular:
+  circular-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -54,7 +54,7 @@ jobs:
       - name: Check circular
         run: nlx dpdm ./src/index.ts -T --no-tree --no-warning  --exit-code circular:1 --skip-dynamic-imports circular
 
-  typecheck:
+  type-check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -73,8 +73,52 @@ jobs:
       - name: Install
         run: nci
 
-      - name: Typecheck
-        run: nr typecheck
+      - name: Type check
+        run: nr type:check
+
+  type-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: Set node
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+
+      - name: Setup
+        run: npm i -g @antfu/ni
+
+      - name: Install
+        run: nci
+
+      - name: Type test
+        run: nr type:test
+
+  type-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+
+      - name: Set node
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+
+      - name: Setup
+        run: npm i -g @antfu/ni
+
+      - name: Install
+        run: nci
+
+      - name: Type coverage check
+        run: nlx type-coverage --detail --ignoreFiles 'dist'
 
   test:
     runs-on: ${{ matrix.os }}

@@ -4,6 +4,6 @@ import type { GetOperator } from './getOperator'
 
 type In = GetOperator<'In'>
 
-test('Get Operator class by typeName', () => {
+test('通过类型名称获取运算符类', () => {
   expectTypeOf(InOperator).toMatchTypeOf<In>()
 })

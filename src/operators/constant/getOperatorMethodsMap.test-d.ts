@@ -12,9 +12,8 @@ class MyClass {
 // 使用示例
 type MyStaticMethodsMap = GetOperatorMethodsMap<typeof MyClass>
 
-test('Get Operator static methods', () => {
+test('获取运算符的静态方法', () => {
   // MyStaticMethodsMap 类型为 { Method1: () => void; Method3: () => void; }
-
   expectTypeOf<{
     Method1: () => void
     Method3: () => void
