@@ -19,7 +19,7 @@ export type GetShapeOperatorMethod = {
 type StaticMethodsWithParams<C> = {
   [K in FilterNever<{
     [X in keyof C]: X extends string
-      ? C[X] extends (...args: any) => any
+      ? C[X] extends (...args: any[]) => any
         ? C[X]
         : never
       : never;
@@ -30,6 +30,6 @@ type StaticMethodsWithParams<C> = {
     : never;
 }
 
-type ShapeLikeArrayToShapeArray<A extends any[]> = {
+export type ShapeLikeArrayToShapeArray<A extends any[]> = {
   [K in keyof A]: A[K] extends infer Item ? ShapeLikeToShape<Item> : never
 }

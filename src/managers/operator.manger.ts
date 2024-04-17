@@ -7,7 +7,7 @@ import type { ShapeTypeName } from '../shapes'
 export class OperatorManager {
   private static map: OperatorMap = {} as OperatorMap
 
-  static run: AllOperatorMethod = (operatorType: OperatorTypeName, ...operatorParameters: any[]) => {
+  static run: AllOperatorMethod = (operatorType: OperatorTypeName, ...operatorParameters: { type: ShapeTypeName }[]) => {
     const operator = this.get(operatorType)
     const methodName = OperatorManager.getFunctionName(operatorType, ...operatorParameters.map(p => p.type))
     const method = operator[methodName as keyof typeof operator] as unknown as Function

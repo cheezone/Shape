@@ -11,8 +11,7 @@ export class Shape<TData extends ShapeData = ShapeData> {
   }
 
   clone<T extends ShapeMap[ShapeTypeName]>(this: T): T {
-    const Class = this.constructor as any
-    return new Class(cloneDeep(this.data as T['data']))
+    return new (Object.getPrototypeOf(this).constructor)(cloneDeep(this.data as T['data']))
   }
 }
 
@@ -20,12 +19,12 @@ export interface Shape extends GetShapeOperatorMethod { }
 
 export function applyShapeMixins() {
   for (const iterator of Object.values(OperatorEnum)) {
-    (Shape as any).prototype[lowerFirst(iterator)] = function (this: Shape, ...p: [any]) {
+    Object.getPrototypeOf(Shape)[lowerFirst(iterator)] = function (this: Shape, ...p: [any]) {
       return OperatorManager.run(iterator as any, this as any, ...p)
     }
   }
   for (const [alias, operatorType] of Object.entries(AliasOperatorEnum)) {
-    (Shape as any).prototype[lowerFirst(alias)] = function (this: Shape, ...p: [any]) {
+    Object.getPrototypeOf(Shape)[lowerFirst(alias)] = function (this: Shape, ...p: [any]) {
       return OperatorManager.run(operatorType as any, this as any, ...p)
     }
   }

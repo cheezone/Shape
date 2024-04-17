@@ -73,8 +73,8 @@ jobs:
       - name: Install
         run: nci
 
-      - name: Typecheck
-        run: nr typecheck
+      - name: Type check
+        run: nr type:check
 
   type-test:
     runs-on: ubuntu-latest
@@ -95,7 +95,7 @@ jobs:
       - name: Install
         run: nci
 
-      - name: Typecheck
+      - name: Type test
         run: nr type:test
 
   type-coverage:
@@ -117,7 +117,7 @@ jobs:
       - name: Install
         run: nci
 
-      - name: Typecheck
+      - name: Type coverage check
         run: nlx type-coverage --detail --ignoreFiles 'dist'
 
   test:
