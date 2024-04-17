@@ -71,6 +71,11 @@ export class Segment extends Shape<SegmentLike> implements SegmentLike {
     return Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
   }
 
+  /**
+   * 将线段转换为向量。
+   * @param segment 线段对象
+   * @returns 由线段起点指向终点的向量
+   */
   static toVector(segment: SegmentLike): Vector {
     return Vector.create(
       segment.end.x - segment.start.x,
@@ -80,6 +85,7 @@ export class Segment extends Shape<SegmentLike> implements SegmentLike {
 
   private _startPoint: Point
   private _endPoint: Point
+
   constructor(data: SegmentLike) {
     super(data)
 

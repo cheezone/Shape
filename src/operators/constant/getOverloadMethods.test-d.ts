@@ -6,6 +6,6 @@ type TResult = GetOverloadMethods<{
   Method3: (a: '2') => 2
 }>
 
-test('Get multiple methods as overload', () => {
+test('获取多个方法作为重载', () => {
   expectTypeOf<((a: '1') => 1) & ((a: '2') => 2)>().toMatchTypeOf<TResult>()
 })

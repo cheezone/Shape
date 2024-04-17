@@ -33,7 +33,14 @@ export class OperatorManager {
     return this.map[type]!
   }
 
-  static getFunctionName(operatorTypeName: OperatorTypeName, ...shapeTypeNames: ShapeTypeName[]) {
+  /**
+   * 根据运算符类型和图形类型名称生成函数名称。
+   *
+   * @param operatorTypeName 运算符类型名称。
+   * @param shapeTypeNames 图形类型名称数组。
+   * @returns 根据运算符和图形类型名称组合成的函数名称。
+   */
+  static getFunctionName(operatorTypeName: OperatorTypeName, ...shapeTypeNames: ShapeTypeName[]): string {
     if (shapeTypeNames.length === 1)
       return `${operatorTypeName}${shapeTypeNames[0]}`
     else if (shapeTypeNames.length === 2)
