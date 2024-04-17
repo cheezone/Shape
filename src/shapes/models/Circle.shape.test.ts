@@ -10,6 +10,7 @@ describe('圆', () => {
   const circle = new Circle(data)
 
   it('创建圆', () => {
+    const circle = Circle.create(0, 0, 1)
     expect(circle.radius).toEqual(1)
     expect(circle.position.x).toEqual(0)
     expect(circle.position.y).toEqual(0)
@@ -19,9 +20,22 @@ describe('圆', () => {
     data.radius = 2
     expect(circle.radius).toEqual(2)
 
+    data.radius = 2
+    expect(circle.radius).toEqual(2)
+
     data.position.x = 1
     expect(circle.position.x).toEqual(1)
-    expect(circle.position.y).toEqual(0)
+  })
+
+  it('更改对象同步到数据', () => {
+    circle.radius = 2
+    expect(data.radius).toEqual(2)
+
+    circle.position.x = 1
+    expect(data.position.x).toEqual(1)
+
+    circle.position.y = 1
+    expect(data.position.y).toEqual(1)
   })
 
   it('调用圆的 `position` `setter`', () => {

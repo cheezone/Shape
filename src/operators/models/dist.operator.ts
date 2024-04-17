@@ -117,7 +117,8 @@ export class DistOperator extends Operator {
     const Segment = ShapeManager.get('Segment')
     const param = Segment.getParam(segment, point)
 
-    let xx, yy
+    let xx = 0
+    let yy = 0
 
     // 点在线段外，且靠近起点
     if (param < 0) {

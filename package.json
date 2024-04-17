@@ -44,8 +44,9 @@
     "prepublishOnly": "nr build",
     "release": "bumpp && npm publish",
     "start": "esno src/index.ts",
-    "test": "vitest --typecheck",
-    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "type:test": "vitest --typecheck",
+    "type:check": "tsc --noEmit",
     "prepare": "simple-git-hooks"
   },
   "dependencies": {
