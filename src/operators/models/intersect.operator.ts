@@ -3,7 +3,7 @@ import { Operator } from './base'
 import { OperatorEnum } from './types'
 
 /**
- * 在……什么内部。
+ * 与……什么相交。
  */
 export class IntersectOperator extends Operator {
   static type = OperatorEnum.Intersect
