@@ -45,6 +45,7 @@ export class OnOperator extends Operator {
 
     return fuzzyEqual(distance, circle.radius)
   }
+
   // #endregion
 
   // #region 线段、直线、多边形的运算
