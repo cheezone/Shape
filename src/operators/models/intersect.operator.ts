@@ -28,28 +28,31 @@ export class IntersectOperator extends Operator {
   // #region 线段、直线、多边形的运算
 
   static SegmentIntersectSegment(segment1: SegmentLike, segment2: SegmentLike): boolean {
-    const { start: start1, end: end1 } = segment1
-    const { start: start2, end: end2 } = segment2
+    // 线段 P 的起点和终点
+    const { start: { x: x1, y: y1 }, end: { x: x2, y: y2 } } = segment1
 
-    const x1 = start1.x
-    const y1 = start1.y
-    const x2 = end1.x
-    const y2 = end1.y
+    // 线段 Q 的起点和终点
+    const { start: { x: x3, y: y3 }, end: { x: x4, y: y4 } } = segment2
 
-    const x3 = start2.x
-    const y3 = start2.y
-    const x4 = end2.x
-    const y4 = end2.y
+    // 计算 P 和 Q 的差向量
+    const Δx1 = x2 - x1
+    const Δy1 = y2 - y1
+    const Δx2 = x4 - x3
+    const Δy2 = y4 - y3
 
-    const s1_x = x2 - x1
-    const s1_y = y2 - y1
-    const s2_x = x4 - x3
-    const s2_y = y4 - y3
+    // 计算 P 和 Q 的叉积
+    const crossProduct = (-Δx2 * Δy1 + Δx1 * Δy2)
 
-    const s = (-s1_y * (x1 - x3) + s1_x * (y1 - y3)) / (-s2_x * s1_y + s1_x * s2_y)
-    const t = (s2_x * (y1 - y3) - s2_y * (x1 - x3)) / (-s2_x * s1_y + s1_x * s2_y)
+    // 如果叉积为零，表示线段平行或共线
+    if (crossProduct === 0)
+      return false
 
-    return s >= 0 && s <= 1 && t >= 0 && t <= 1
+    // 计算参数 t 和 s
+    const t = (Δx2 * (y1 - y3) - Δy2 * (x1 - x3)) / crossProduct
+    const s = (-Δy1 * (x1 - x3) + Δx1 * (y1 - y3)) / crossProduct
+
+    // 如果 t 和 s 在 0 到 1 之间，表示两条线段相交
+    return t >= 0 && t <= 1 && s >= 0 && s <= 1
   }
 
   // #endregion
