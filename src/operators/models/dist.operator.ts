@@ -1,5 +1,5 @@
 import { OperatorManager, ShapeManager } from '../../managers'
-import type { CircleLike, PointLike, SegmentLike } from '../../shapes'
+import type { CircleLike, PointLike, RectLike, SegmentLike } from '../../shapes'
 import { fuzzyEqual } from '../../util'
 
 import { Operator } from './base'
@@ -225,6 +225,153 @@ export class DistOperator extends Operator {
    */
   static SegmentDistCircle(segment: SegmentLike, circle: CircleLike) {
     return DistOperator.CircleDistSegment(circle, segment)
+  }
+
+  // #endregion
+
+  // #region 矩形的运算
+
+  /**
+   * 计算点到矩形的距离。
+   * @param point 点
+   * @param rect 矩形
+   * @returns 点到矩形的距离
+   */
+  static PointDistRect(point: PointLike, rect: RectLike) {
+    const { x, y } = point
+    const { position, width, height } = rect
+    const { x: rx, y: ry } = position
+
+    // 如果点在矩形内部，距离为0
+    if (x >= rx && x <= rx + width && y >= ry && y <= ry + height)
+      return 0
+
+    // 计算点到矩形各边的最短距离
+    const distToLeft = x < rx ? rx - x : 0
+    const distToRight = x > rx + width ? x - (rx + width) : 0
+    const distToTop = y < ry ? ry - y : 0
+    const distToBottom = y > ry + height ? y - (ry + height) : 0
+
+    // 返回最短距离
+    return Math.sqrt(distToLeft ** 2 + distToRight ** 2 + distToTop ** 2 + distToBottom ** 2)
+  }
+
+  /**
+   * 计算矩形到点的距离。
+   * @param rect 矩形
+   * @param point 点
+   * @returns 矩形到点的距离
+   */
+  static RectDistPoint(rect: RectLike, point: PointLike) {
+    return DistOperator.PointDistRect(point, rect)
+  }
+
+  /**
+   * 计算矩形到线段的距离。
+   * @param rect 矩形
+   * @param segment 线段
+   * @returns 矩形到线段的距离
+   */
+  static RectDistSegment(rect: RectLike, segment: SegmentLike) {
+    const { start, end } = segment
+    const { position, width, height } = rect
+    const { x: rx, y: ry } = position
+
+    // 创建矩形的四个顶点
+    const topLeft = { x: rx, y: ry }
+    const topRight = { x: rx + width, y: ry }
+    const bottomLeft = { x: rx, y: ry + height }
+    const bottomRight = { x: rx + width, y: ry + height }
+
+    // 创建矩形的四条边
+    const topEdge = { start: topLeft, end: topRight }
+    const rightEdge = { start: topRight, end: bottomRight }
+    const bottomEdge = { start: bottomLeft, end: bottomRight }
+    const leftEdge = { start: topLeft, end: bottomLeft }
+
+    // 如果线段的任一端点在矩形内部，距离为 0
+    if (DistOperator.PointDistRect(start, rect) === 0 || DistOperator.PointDistRect(end, rect) === 0)
+      return 0
+
+    // 计算线段到矩形四条边的最短距离
+    const distToTop = DistOperator.SegmentDistSegment(segment, topEdge)
+    const distToRight = DistOperator.SegmentDistSegment(segment, rightEdge)
+    const distToBottom = DistOperator.SegmentDistSegment(segment, bottomEdge)
+    const distToLeft = DistOperator.SegmentDistSegment(segment, leftEdge)
+
+    // 返回最短距离
+    return Math.min(distToTop, distToRight, distToBottom, distToLeft)
+  }
+
+  /**
+   * 计算线段到矩形的距离。
+   * @param segment 线段
+   * @param rect 矩形
+   * @returns 线段到矩形的距离
+   */
+  static SegmentDistRect(segment: SegmentLike, rect: RectLike) {
+    return DistOperator.RectDistSegment(rect, segment)
+  }
+
+  /**
+   * 计算矩形到圆的距离。
+   * @param rect 矩形
+   * @param circle 圆
+   * @returns 矩形到圆的距离
+   */
+  static RectDistCircle(rect: RectLike, circle: CircleLike) {
+    const { position: circlePosition, radius } = circle
+    const distToCenter = DistOperator.PointDistRect(circlePosition, rect)
+
+    // 如果圆心到矩形的距离小于半径，说明有重叠
+    if (distToCenter <= radius)
+      return 0
+
+    return distToCenter - radius
+  }
+
+  /**
+   * 计算圆到矩形的距离。
+   * @param circle 圆
+   * @param rect 矩形
+   * @returns 圆到矩形的距离
+   */
+  static CircleDistRect(circle: CircleLike, rect: RectLike) {
+    return DistOperator.RectDistCircle(rect, circle)
+  }
+
+  /**
+   * 计算两个矩形之间的距离。
+   * @param rect1 第一个矩形
+   * @param rect2 第二个矩形
+   * @returns 两个矩形之间的距离
+   */
+  static RectDistRect(rect1: RectLike, rect2: RectLike) {
+    const { position: pos1, width: w1, height: h1 } = rect1
+    const { position: pos2, width: w2, height: h2 } = rect2
+    const { x: x1, y: y1 } = pos1
+    const { x: x2, y: y2 } = pos2
+
+    // 计算两个矩形在x轴和y轴上的重叠情况
+    const overlapX = Math.max(0, Math.min(x1 + w1, x2 + w2) - Math.max(x1, x2))
+    const overlapY = Math.max(0, Math.min(y1 + h1, y2 + h2) - Math.max(y1, y2))
+
+    // 如果两个矩形在任一轴上有重叠，则距离为0
+    if (overlapX > 0 && overlapY > 0)
+      return 0
+
+    // 计算 x 轴和 y 轴上的最短距离
+    const dx = overlapX > 0 ? 0 : Math.min(
+      Math.abs(x1 - (x2 + w2)), // rect1 左边到 rect2 右边
+      Math.abs(x2 - (x1 + w1)), // rect2 左边到 rect1 右边
+    )
+    const dy = overlapY > 0 ? 0 : Math.min(
+      Math.abs(y1 - (y2 + h2)), // rect1 上边到 rect2 下边
+      Math.abs(y2 - (y1 + h1)), // rect2 上边到 rect1 下边
+    )
+
+    // 返回欧几里得距离
+    return Math.sqrt(dx * dx + dy * dy)
   }
 
   // #endregion

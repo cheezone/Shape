@@ -54,6 +54,7 @@ export default antfu(
     },
     rules: {
       'export-scope/no-imports-outside-export-scope': 'error',
+      'style/multiline-ternary': 'off',
     },
     languageOptions: {
       parser: tsParser,
